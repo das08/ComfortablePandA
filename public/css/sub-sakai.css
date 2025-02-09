@@ -79,3 +79,7 @@ span {
     --bgColor: #cacaca;
     --dateColor: #b01011;
 }
+
+.course-button {
+    border-width: 0;
+}

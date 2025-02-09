@@ -73,7 +73,12 @@ function MiniSakaiCourse(props: {
         <div className={divClass}>
             {/* TODO: subset a tag */}
             {props.isSubset ? (
-                <div className={aClass}>{props.courseName}</div>
+                <button className={`${aClass} course-button`} onClick={() => {
+                    chrome.tabs.create({
+                        url: props.coursePage,
+                        active: true
+                    })
+                }}>{props.courseName}</button>
             ) : (
                 <a className={aClass} href={props.coursePage}>
                     {props.courseName}

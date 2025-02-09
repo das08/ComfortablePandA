@@ -5,7 +5,7 @@ import { Memo, MemoEntry } from "../features/entity/memo/types";
 import { Quiz, QuizEntry } from "../features/entity/quiz/types";
 import { getDaysUntil } from "../utils";
 import AssignmentEntryView from "./assignment";
-import { useTranslation } from "./helper";
+import { useTranslation, useTranslationArgsDeps, useTranslationDeps } from "./helper";
 import MemoEntryView from "./memo";
 import QuizEntryView from "./quiz";
 import { CurrentTime, MaxTimestamp } from "../constant";
@@ -123,28 +123,32 @@ export function EntryTab(props: {
                 });
                 continue;
             }
-            const daysUntilDue = getDaysUntil(CurrentTime, entry.getDueDate(props.settings.miniSakaiOption.showLateAcceptedEntry));
+            const daysUntilDue = getDaysUntil(props.settings, CurrentTime, entry.getDueDate(props.settings.miniSakaiOption.showLateAcceptedEntry));
 
             switch (daysUntilDue) {
-                case "due24h":
+                //case "due24h":
+                case "dueVerySoon":
                     dangerElements.push({
                         entry: entry,
                         course: course
                     });
                     break;
-                case "due5d":
+                //case "due5d":
+                case "dueSoon":
                     warningElements.push({
                         entry: entry,
                         course: course
                     });
                     break;
-                case "due14d":
+                //case "due14d":
+                case "dueMiddle":
                     successElements.push({
                         entry: entry,
                         course: course
                     });
                     break;
-                case "dueOver14d":
+                //case "dueOver14d":
+                case "dueLater":
                     otherElements.push({
                         entry: entry,
                         course: course
@@ -166,7 +170,7 @@ export function EntryTab(props: {
 
             {dangerElements.length === 0 ? null : (
                 <>
-                    <MiniSakaiEntryHeader dueType="danger" />
+                    <MiniSakaiEntryHeader dueType="danger" settings={props.settings} />
                     <MiniSakaiEntryList
                         dueType="danger"
                         isSubset={props.isSubset}
@@ -179,7 +183,7 @@ export function EntryTab(props: {
             )}
             {warningElements.length === 0 ? null : (
                 <>
-                    <MiniSakaiEntryHeader dueType="warning" />
+                    <MiniSakaiEntryHeader dueType="warning" settings={props.settings} />
                     <MiniSakaiEntryList
                         dueType="warning"
                         isSubset={props.isSubset}
@@ -192,7 +196,7 @@ export function EntryTab(props: {
             )}
             {successElements.length === 0 ? null : (
                 <>
-                    <MiniSakaiEntryHeader dueType="success" />
+                    <MiniSakaiEntryHeader dueType="success" settings={props.settings} />
                     <MiniSakaiEntryList
                         dueType="success"
                         isSubset={props.isSubset}
@@ -205,7 +209,7 @@ export function EntryTab(props: {
             )}
             {otherElements.length === 0 ? null : (
                 <>
-                    <MiniSakaiEntryHeader dueType="other" />
+                    <MiniSakaiEntryHeader dueType="other" settings={props.settings} />
                     <MiniSakaiEntryList
                         dueType="other"
                         isSubset={props.isSubset}
@@ -218,7 +222,7 @@ export function EntryTab(props: {
             )}
             {checkedElements.length === 0 ? null : (
                 <>
-                    <MiniSakaiEntryHeader dueType="checked" />
+                    <MiniSakaiEntryHeader dueType="checked" settings={props.settings} />
                     <MiniSakaiEntryList
                         dueType="checked"
                         isSubset={props.isSubset}
@@ -330,14 +334,14 @@ function AddMemoBox(props: { shown: boolean; courses: Course[]; onMemoAdd: (memo
     );
 }
 
-function MiniSakaiEntryHeader(props: { dueType: DueType }) {
+function MiniSakaiEntryHeader(props: { dueType: DueType, settings: Settings }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dueTypeTitleMap: { [key in DueType]: string } = {
         checked: useTranslation("checked"),
-        danger: useTranslation("due24h"),
-        warning: useTranslation("due5d"),
-        success: useTranslation("due14d"),
-        other: useTranslation("dueOver14d")
+        danger: useTranslationArgsDeps("dueVerySoon", [props.settings.timeUntilDeadline.dangerHours.toString()], []),
+        warning: useTranslationArgsDeps("dueSoon", [props.settings.timeUntilDeadline.warningDays.toString()], []),
+        success: useTranslationArgsDeps("dueMiddle", [props.settings.timeUntilDeadline.middleDays.toString()], []),
+        other: useTranslationArgsDeps("dueLater", [props.settings.timeUntilDeadline.middleDays.toString()], []),
     };
     const className = useMemo(() => {
         return `cs-minisakai-${props.dueType}`;

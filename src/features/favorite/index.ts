@@ -4,7 +4,7 @@ import { getCourseSiteID } from "../../utils";
  * Limit maximum number of course sites
  * @type {int}
  */
-const MAX_FAVORITES = 20;
+const MAX_FAVORITES = 100;
 
 const getSiteIdAndHrefSiteNameMap = (): Map<string, { href: string, title: string }> => {
     const sites = document.querySelectorAll(".fav-sites-entry");

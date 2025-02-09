@@ -33,13 +33,51 @@
       "time": { "content": "$2" }
     }
   },
+
+  "settings_colors_danger": { "message": "【$color_type$】 due is very soon",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_warning": { "message": "【$color_type$】 due is soon",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_middle": { "message": "【$color_type$】 due is a little soon",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_later": { "message": "【$color_type$】 due is later",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+
   "assignment_acquisition_date": {"message": "Assignment Acquisition Date: "},
   "testquiz_acquisition_date": {"message": "Test&Quiz Acquisition Date: "},
-  "due24h": {"message": "Due within 24hrs"},
-  "due5d": {"message": "Due within 5days"},
-  "due14d": {"message": "Due within 14days"},
+  "dueVerySoon": {"message": "$time$ hours before due",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueSoon": {"message": "$time$ days before due",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueMiddle": {"message": "$time$ days before due",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueLater": {"message": "More than $time$ days before due",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
   "duePassed": {"message": "Late submission possible"},
-  "dueOver14d": {"message": "Others"},
   "checked": {"message": "Submitted"},
   "no_available_assignments": {"message": "There are no available assignments :)"},
   "remain_time": { "message": "$days$d, $hours$hr, $minutes$min left.",

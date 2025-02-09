@@ -11,7 +11,8 @@ import { AssignmentFetchTimeStorage, CurrentTime, MaxTimestamp, QuizFetchTimeSto
 import { saveAssignments } from "./features/entity/assignment/saveAssignment";
 import { EntryProtocol } from "./features/entity/type";
 
-export type DueCategory = "due24h" | "due5d" | "due14d" | "dueOver14d" | "duePassed";
+//export type DueCategory = "due24h" | "due5d" | "due14d" | "dueOver14d" | "duePassed";
+export type DueCategory = "dueVerySoon" | "dueSoon" | "dueMiddle" | "dueLater" | "duePassed";
 
 export async function getEntities(settings: Settings, courses: Array<Course>, cacheOnly = false) {
     // TODO: 並列化する
@@ -58,21 +59,23 @@ export async function getFetchTime(hostname: string): Promise<FetchTime> {
 
 /**
  * Calculate category of assignment due date
+ * @param {Settings} settings
  * @param {number} dt1 standard time
  * @param {number} dt2 target time
  */
-function getDaysUntil(dt1: number, dt2: number): DueCategory {
+function getDaysUntil(settings: Settings, dt1: number, dt2: number): DueCategory {
     let diff = dt2 - dt1;
+    let diffhour = diff / 3600;
     diff /= 3600 * 24;
     let category: DueCategory;
-    if (diff > 0 && diff <= 1) {
-        category = "due24h";
-    } else if (diff > 1 && diff <= 5) {
-        category = "due5d";
-    } else if (diff > 5 && diff <= 14) {
-        category = "due14d";
-    } else if (diff > 14) {
-        category = "dueOver14d";
+    if (diffhour > 0 && diffhour <= settings.timeUntilDeadline.dangerHours) {
+        category = "dueVerySoon";
+    } else if (diffhour > settings.timeUntilDeadline.dangerHours && diff <= settings.timeUntilDeadline.warningDays) {
+        category = "dueSoon";
+    } else if (diff > settings.timeUntilDeadline.warningDays && diff <= settings.timeUntilDeadline.middleDays) {
+        category = "dueMiddle";
+    } else if (diff > settings.timeUntilDeadline.middleDays) {
+        category = "dueLater";
     } else {
         category = "duePassed";
     }

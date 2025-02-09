@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+    tags:
+        - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Using Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+            node-version: ${{ matrix.node-version }}
+      - name: Installing dependencies
+        run: npm ci
+      - name: Building releases
+        run: npm run build:all
+        env:
+            NODE_ENV: production
+      - name: Collecting release builds
+        uses: actions/upload-artifact@v2
+        with:
+            name: releases
+            path: dist/release/*.zip

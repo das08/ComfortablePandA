@@ -25,15 +25,15 @@ export type SettingsChange =
 export function SettingsTab(props: { onSettingsChange: (change: SettingsChange) => void; settings: Settings }) {
     const settings = props.settings;
 
-    const topColorDangerDesc = useTranslationArgsDeps("settings_colors_hour", ["Tab Bar", "24"], []);
-    const topColorWarningDesc = useTranslationArgsDeps("settings_colors_day", ["Tab Bar", "5"], []);
-    const topColorSuccessDesc = useTranslationArgsDeps("settings_colors_day", ["Tab Bar", "14"], []);
-    const topColorOtherDesc = useTranslationArgsDeps("settings_colors_day_more", ["Tab Bar", "14"], []);
+    const topColorDangerDesc = useTranslationArgsDeps("settings_colors_danger", ["Tab Bar"], []);
+    const topColorWarningDesc = useTranslationArgsDeps("settings_colors_warning", ["Tab Bar"], []);
+    const topColorSuccessDesc = useTranslationArgsDeps("settings_colors_middle", ["Tab Bar"], []);
+    const topColorOtherDesc = useTranslationArgsDeps("settings_colors_later", ["Tab Bar"], []);
 
-    const miniColorDangerDesc = useTranslationArgsDeps("settings_colors_hour", ["miniPandA", "24"], []);
-    const miniColorWarningDesc = useTranslationArgsDeps("settings_colors_day", ["miniPandA", "5"], []);
-    const miniColorSuccessDesc = useTranslationArgsDeps("settings_colors_day", ["miniPandA", "14"], []);
-    const miniColorOtherDesc = useTranslationArgsDeps("settings_colors_day_more", ["miniPandA", "14"], []);
+    const miniColorDangerDesc = useTranslationArgsDeps("settings_colors_danger", ["miniPandA"], []);
+    const miniColorWarningDesc = useTranslationArgsDeps("settings_colors_warning", ["miniPandA"], []);
+    const miniColorSuccessDesc = useTranslationArgsDeps("settings_colors_middle", ["miniPandA"], []);
+    const miniColorOtherDesc = useTranslationArgsDeps("settings_colors_later", ["miniPandA"], []);
 
     return (
         <div className="cs-settings-tab">
@@ -94,6 +94,45 @@ export function SettingsTab(props: { onSettingsChange: (change: SettingsChange) 
                 }
             />
 
+            <TranslatedNumberItem
+                descriptionTag="settings_assignment_danger_hours"
+                value={settings.timeUntilDeadline.dangerHours}
+                min={1}
+                max={settings.timeUntilDeadline.warningDays * 24 - 1}
+                onChange={(v) =>
+                    props.onSettingsChange({
+                        type: "number",
+                        id: "timeUntilDeadline.dangerHours",
+                        newValue: v
+                    })
+                }
+            />
+            <TranslatedNumberItem
+                descriptionTag="settings_assignment_warning_days"
+                value={settings.timeUntilDeadline.warningDays}
+                min={settings.timeUntilDeadline.dangerHours / 24}
+                max={settings.timeUntilDeadline.middleDays - 1}
+                onChange={(v) =>
+                    props.onSettingsChange({
+                        type: "number",
+                        id: "timeUntilDeadline.warningDays",
+                        newValue: v
+                    })
+                }
+            />
+            <TranslatedNumberItem
+                descriptionTag="settings_assignment_middle_days"
+                value={settings.timeUntilDeadline.middleDays}
+                min={settings.timeUntilDeadline.warningDays + 1}
+                onChange={(v) =>
+                    props.onSettingsChange({
+                        type: "number",
+                        id: "timeUntilDeadline.middleDays",
+                        newValue: v
+                    })
+                }
+            />
+
             <StringItem
                 description={topColorDangerDesc}
                 value={settings.color.topDanger}
@@ -105,6 +144,7 @@ export function SettingsTab(props: { onSettingsChange: (change: SettingsChange) 
                     })
                 }
             />
+
             <StringItem
                 description={topColorWarningDesc}
                 value={settings.color.topWarning}
@@ -116,6 +156,7 @@ export function SettingsTab(props: { onSettingsChange: (change: SettingsChange) 
                     })
                 }
             />
+
             <StringItem
                 description={topColorSuccessDesc}
                 value={settings.color.topSuccess}
@@ -127,6 +168,7 @@ export function SettingsTab(props: { onSettingsChange: (change: SettingsChange) 
                     })
                 }
             />
+
             <StringItem
                 description={topColorOtherDesc}
                 value={settings.color.topOther}
@@ -241,6 +283,9 @@ function NumberItem(props: {
     description: string;
     display?: boolean;
     value: number;
+    min?: number;
+    max?: number;
+    isInteger?: boolean;
     onChange: (newValue: number) => void;
 }) {
     return (
@@ -249,6 +294,9 @@ function NumberItem(props: {
                 type="number"
                 className="cp-settings-inputbox"
                 value={props.value}
+                min={props.min}
+                max={props.max}
+                step={props.isInteger ? 1 : undefined}
                 onChange={(ev) => props.onChange(parseInt(ev.target.value))}
             ></input>
         </SettingsItem>
@@ -259,11 +307,16 @@ function TranslatedNumberItem(props: {
     descriptionTag: string;
     display?: boolean;
     value: number;
+    min?: number;
+    max?: number;
+    isInteger?: boolean;
     onChange: (newValue: number) => void;
 }) {
     const description = useTranslationDeps(props.descriptionTag, [props.descriptionTag]);
     return (
-        <NumberItem description={description} display={props.display} value={props.value} onChange={props.onChange} />
+        <NumberItem description={description} display={props.display} value={props.value} onChange={props.onChange} 
+            min={props.min} max={props.max} isInteger={props.isInteger}
+        />
     );
 }
 

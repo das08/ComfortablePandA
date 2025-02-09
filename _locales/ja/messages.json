@@ -15,6 +15,7 @@
   "settings_color_checked_item": {"message": "チェック済の課題も色付けする"},
   "settings_display_late_submit_assignment": {"message": "遅延提出可能な課題を表示する"},
   "settings_reset_colors": {"message": "デフォルト色に戻す"},
+  
   "settings_colors_hour": { "message": "【$color_type$】 締切$time$時間前",
     "placeholders": {
       "color_type": { "content": "$1" },
@@ -33,13 +34,53 @@
       "time": { "content": "$2" }
     }
   },
+
+  "settings_colors_danger": { "message": "【$color_type$】 締切直前の課題",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_warning": { "message": "【$color_type$】 締切の近い課題",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_middle": { "message": "【$color_type$】 締切のやや近い課題",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+  "settings_colors_later": { "message": "【$color_type$】 締切の遠い課題",
+    "placeholders": {
+      "color_type": { "content": "$1" }
+    }
+  },
+
   "assignment_acquisition_date": {"message": "課題取得日時: "},
   "testquiz_acquisition_date": {"message": "クイズ取得日時: "},
-  "due24h": {"message": "締め切り２４時間以内"},
-  "due5d": {"message": "締め切り５日以内"},
-  "due14d": {"message": "締め切り１４日以内"},
+
+  "dueVerySoon": {"message": "締め切り$time$時間以内",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueSoon": {"message": "締め切り$time$日以内",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueMiddle": {"message": "締め切り$time$日以内",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
+  "dueLater": {"message": "締め切りまで$time$日以上",
+    "placeholders": {
+      "time": { "content": "$1" }
+    }
+  },
   "duePassed": {"message": "遅延提出可能"},
-  "dueOver14d": {"message": "その他"},
+  "dueOther": {"message": "その他"},
   "checked": {"message": "提出済み"},
   "no_available_assignments": {"message": "表示できる課題はないよ"},
   "remain_time": { "message": "あと$days$日$hours$時間$minutes$分",
@@ -55,5 +96,8 @@
     "placeholders": {
       "name": { "content": "$1" }
     }
-  }
+  },
+  "settings_assignment_danger_hours": {"message": "締め切り直前の課題の基準 [時間]"},
+  "settings_assignment_warning_days": {"message": "締め切りが近い課題の基準 [日]"},
+  "settings_assignment_middle_days": {"message": "締め切りがやや近い課題の基準 [日]"}
 }

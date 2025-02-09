@@ -4,10 +4,10 @@ import { EntityProtocol, EntryProtocol } from "../features/entity/type";
 import { MaxTimestamp } from "../constant";
 
 const dueCategoryClassMap: { [key in DueCategory]: string } = {
-    due24h: "cs-tab-danger",
-    due5d: "cs-tab-warning",
-    due14d: "cs-tab-success",
-    dueOver14d: "cs-tab-other",
+    dueVerySoon: "cs-tab-danger",
+    dueSoon: "cs-tab-warning",
+    dueMiddle: "cs-tab-success",
+    dueLater: "cs-tab-other",
     duePassed: ""
 };
 
@@ -34,7 +34,7 @@ const createDueMap = (settings: Settings, courseMap: CourseMap): DueMap => {
         if (entries.entries.length === 0) continue;
         const closestTime = getClosestTime(settings, entries.entries);
         if (closestTime === MaxTimestamp) continue;
-        const daysUntilDue = getDaysUntil(settings.appInfo.currentTime, closestTime);
+        const daysUntilDue = getDaysUntil(settings, settings.appInfo.currentTime, closestTime);
         dueMap.set(courseID, { due: daysUntilDue, isRead: entries.isRead });
     }
     return dueMap;
@@ -65,8 +65,10 @@ export async function createFavoritesBar(settings: Settings, entities: EntityPro
         const tabClass = dueCategoryClassMap[courseInfo.due];
         const aTagCount = defaultTab[j].getElementsByTagName("a").length;
         // Apply color to course button
-        for (let i = 0; i < aTagCount; i++) {
-            defaultTab[j].getElementsByTagName("a")[i].classList.add(tabClass);
+        if(tabClass !== "") {   // If not duePassed
+            for (let i = 0; i < aTagCount; i++) {
+                defaultTab[j].getElementsByTagName("a")[i].classList.add(tabClass);
+            }
         }
         defaultTab[j].classList.add(tabClass);
         // Put notification badge

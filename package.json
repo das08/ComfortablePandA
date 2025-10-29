@@ -11,7 +11,7 @@
     "convert:safari": "npm run build:safari && xcrun safari-web-extension-converter dist/source/safari --project-location dist/source/safari-proj --app-name \"Comfortable-PandA\" --bundle-identifier \"com.das08.ComfortablePandA.Safari\" --force\n",
     "build:all": "npm run build:chrome && npm run build:firefox && npm run build:safari"
   },
-  "author": "das08, tinaxd, tetete, arakistic",
+  "author": "das08, tinaxd, spinachpasta, arakistic",
   "license": "Apache-2.0",
   "dependencies": {
     "@types/chrome": "^0.0.178",
@@ -21,6 +21,7 @@
     "mustache": "^4.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-pdf": "^10.2.0",
     "ts-loader": "^9.2.6",
     "uuid": "^8.3.2",
     "webpack": "^5.70.0"
@@ -34,6 +35,8 @@
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.8.0",
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",

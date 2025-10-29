@@ -37,7 +37,8 @@
         "img/logo.png",
         "img/noAssignment.png",
         "img/miniSakaiBtn.png",
-        "img/closeBtn.svg"
+        "img/closeBtn.svg",
+        "assets/pdf.worker.mjs"
       ],
       "matches": ["https://panda.ecs.kyoto-u.ac.jp/*"]
     }

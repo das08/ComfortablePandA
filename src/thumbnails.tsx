@@ -1,72 +1,23 @@
-import React, { useState } from 'react';
-import { createRoot, Root } from 'react-dom/client';
-import { Document, Page, pdfjs } from 'react-pdf';
-
-// Configure pdf.js worker source.
-// For production, bundle pdf.worker.min.js with your extension and declare it as a web_accessible_resource.
-// This path is resolved relative to the extension's root directory.
-pdfjs.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL('assets/pdf.worker.mjs');
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 
 interface PdfThumbnailProps {
   pdfUrl: string;
   width?: number;
-  height?: number;
 }
 
-const PdfThumbnail: React.FC<PdfThumbnailProps> = ({ pdfUrl, width = 150, height }) => {
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setLoading(false);
-  };
-
-  const onDocumentLoadError = (err: Error) => {
-    console.error("Failed to load PDF document:", err);
-    setError("Failed to load PDF. It might be corrupted or not a PDF.");
-    setLoading(false);
-  };
-
-  if (error) {
-    return (
-      <div className="cs-pdf-thumbnail-error" style={{ width, height: height || 'auto', border: '1px solid #ccc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontSize: '0.7em', color: 'red', padding: '5px', textAlign: 'center', boxSizing: 'border-box' }}>
-        <span style={{ marginBottom: '5px' }}>Error loading PDF</span>
-        <span style={{ fontSize: '0.6em', color: '#888' }}>{error}</span>
-      </div>
-    );
-  }
-  // console.log("loading:" + loading);
+const PdfThumbnail: React.FC<PdfThumbnailProps> = ({ pdfUrl, width = 150 }) => {
   return (
-    <div className="cs-pdf-thumbnail-container" style={{ width, height: height || 'auto', border: '1px solid #ccc', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0', position: 'relative' }}>
-      {loading && (
-        <div className="cs-pdf-thumbnail-loading" style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.8)', zIndex: 10 }}>
-          Loading...
-        </div>
-      )}
-      <Document
-        file={pdfUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={onDocumentLoadError}
-        loading={null} // Custom loading handled by parent div
-        error={null} // Custom error handled by parent div
-      >
-        {numPages && (
-          <Page
-            pageNumber={1} // Always render the first page for a thumbnail
-            width={width}
-            renderAnnotationLayer={false}
-            renderTextLayer={false}
-            loading={null} // Custom loading handled by parent div
-          />
-        )}
-      </Document>
-      {!numPages && !loading && !error && (
-        <div className="cs-pdf-thumbnail-placeholder" style={{ width, height: height || 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8em', color: '#666' }}>
-          No PDF pages.
-        </div>
-      )}
+    <div className="cs-pdf-thumbnail-container" style={{ width, border: '1px solid #ccc', overflow: 'hidden', backgroundColor: '#f0f0f0' }}>
+      <iframe
+        src={pdfUrl}
+        style={{
+          width: '100%',
+          height: `${(width * 4) / 3}px`, // Maintain a 3:4 aspect ratio
+          border: 'none',
+        }}
+        title={`PDF thumbnail for ${pdfUrl}`}
+      />
     </div>
   );
 };

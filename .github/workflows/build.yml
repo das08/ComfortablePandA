@@ -26,7 +26,7 @@ jobs:
         env:
             NODE_ENV: production
       - name: Collecting release builds
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
             name: releases
             path: dist/release/*.zip

@@ -32,7 +32,7 @@ miniSakai.classList.add("cs-minisakai", "cs-tab");
 export const hamburger = document.createElement("div"); // buttonをdivに変更
 hamburger.className = "cs-minisakai-btn-div";
 hamburger.style.cursor = "pointer";
-hamburger.addEventListener("click", toggleMiniSakai); // ← これが配線です！
+hamburger.addEventListener("click", toggleMiniSakai);
 
 /**
  * Create a button to open miniSakai
@@ -64,19 +64,17 @@ export function createMiniSakai(hostname: string) {
     const parent = document.body;
     parent.appendChild(miniSakai);
     
-    // ↓↓↓ ここから4行を追加してください！ ↓↓↓
     miniSakai.style.position = "fixed";
     miniSakai.style.top = "0px"; // 上からの隙間
     miniSakai.style.right = "15px"; // 右からの隙間
     miniSakai.style.zIndex = "99999"; // 最前面に出す
-    // ↑↑↑ ここまで追加 ↑↑↑
 
     const root = createRoot(miniSakai);
     root.render(<MiniSakaiRoot subset={false} hostname={hostname} />);
 }
 
 export const applyColorSettings = (settings: Settings, isSubSakai: boolean): void => {
-    // 💡 ↓↓↓ 古いヘッダーを探すコードを消して、document.body に書き換えます ↓↓↓
+    // 古いヘッダーを探すコードを消してdocument.bodyに書き換え
     let bodyStyles: HTMLElement = document.body; 
 
     for (const colorName of Object.getOwnPropertyNames(settings.color)) {

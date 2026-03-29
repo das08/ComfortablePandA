@@ -159,6 +159,7 @@ export const updateIsReadFlag = (currentHref: string, assignments: Array<Assignm
  * Change loading icon to hamburger button.
  */
 function miniSakaiReady(): void {
+// minisakai.tsxで処理を追加したためここは消去
     /*
     const loadingIcon = document.getElementsByClassName("cs-loading")[0];
     const hamburgerIcon = document.createElement("img");

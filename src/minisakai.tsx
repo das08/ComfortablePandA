@@ -29,19 +29,31 @@ export const miniSakai = document.createElement("div");
 miniSakai.id = "miniSakai";
 miniSakai.classList.add("cs-minisakai", "cs-tab");
 
-export const hamburger = document.createElement("button");
-hamburger.className = "cs-loading";
-hamburger.addEventListener("click", toggleMiniSakai);
+export const hamburger = document.createElement("div"); // buttonをdivに変更
+hamburger.className = "cs-minisakai-btn-div";
+hamburger.style.cursor = "pointer";
+hamburger.addEventListener("click", toggleMiniSakai); // ← これが配線です！
 
 /**
  * Create a button to open miniSakai
  */
 export function createMiniSakaiBtn(): void {
-    const topbar = document.getElementById("mastLogin");
-    try {
-        topbar?.appendChild(hamburger);
-    } catch (e) {
-        console.log("could not launch miniSakai.");
+    const targetContainer = document.querySelector("#sakai-system-indicators");
+    if (targetContainer) {
+        const newListItem = document.createElement("li");
+        newListItem.style.marginRight = "25px";
+        newListItem.style.display = "flex";
+        newListItem.style.alignItems = "center";
+
+        const hamburgerIcon = document.createElement("img");
+        hamburgerIcon.src = chrome.runtime.getURL("img/miniSakaiBtn.png");
+        hamburgerIcon.className = "cs-minisakai-btn";
+
+        hamburger.append(hamburgerIcon);
+        newListItem.append(hamburger);
+        targetContainer.append(newListItem);
+    } else {
+        console.log("could not launch miniSakai btn.");
     }
 }
 
@@ -49,20 +61,24 @@ export function createMiniSakaiBtn(): void {
  * Insert miniSakai into Sakai.
  */
 export function createMiniSakai(hostname: string) {
-    const parent = document.getElementsByClassName("Mrphs-mainHeader")[0];
-    const ref = document.getElementsByClassName("Mrphs-sites-nav")[0];
-    parent?.insertBefore(miniSakai, ref);
+    const parent = document.body;
+    parent.appendChild(miniSakai);
+    
+    // ↓↓↓ ここから4行を追加してください！ ↓↓↓
+    miniSakai.style.position = "fixed";
+    miniSakai.style.top = "0px"; // 上からの隙間
+    miniSakai.style.right = "15px"; // 右からの隙間
+    miniSakai.style.zIndex = "99999"; // 最前面に出す
+    // ↑↑↑ ここまで追加 ↑↑↑
+
     const root = createRoot(miniSakai);
     root.render(<MiniSakaiRoot subset={false} hostname={hostname} />);
 }
 
 export const applyColorSettings = (settings: Settings, isSubSakai: boolean): void => {
-    let bodyStyles: HTMLElement;
-    if (!isSubSakai) {
-        bodyStyles = document.querySelector(".Mrphs-mainHeader") as HTMLElement;
-    } else {
-        bodyStyles = document.querySelector("#subSakai") as HTMLElement;
-    }
+    // 💡 ↓↓↓ 古いヘッダーを探すコードを消して、document.body に書き換えます ↓↓↓
+    let bodyStyles: HTMLElement = document.body; 
+
     for (const colorName of Object.getOwnPropertyNames(settings.color)) {
         // @ts-ignore
         const color = settings.color[colorName];

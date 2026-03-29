@@ -1,5 +1,5 @@
 {
-  "name": "Comfortable PandA",
+  "name": "Comfortable KULMS",
   "description": "__MSG_EXTENSION_DESCRIPTION__",
   "version": "----",
   "manifest_version": 3,
@@ -10,7 +10,7 @@
     "128": "img/icon128.png"
   },
   "action": {
-    "default_title": "Comfortable PandA",
+    "default_title": "Comfortable KULMS",
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -21,7 +21,7 @@
       "css": [
         "css/comfortable-sakai.css"
       ],
-      "matches": ["https://panda.ecs.kyoto-u.ac.jp/*"]
+      "matches": ["https://lms.gakusei.kyoto-u.ac.jp/*"]
     }
   ],
   "background": {
@@ -40,7 +40,7 @@
         "img/closeBtn.svg",
         "assets/pdf.worker.mjs"
       ],
-      "matches": ["https://panda.ecs.kyoto-u.ac.jp/*"]
+      "matches": ["https://lms.gakusei.kyoto-u.ac.jp/*"]
     }
   ]
 }

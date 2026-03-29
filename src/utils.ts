@@ -159,12 +159,14 @@ export const updateIsReadFlag = (currentHref: string, assignments: Array<Assignm
  * Change loading icon to hamburger button.
  */
 function miniSakaiReady(): void {
+    /*
     const loadingIcon = document.getElementsByClassName("cs-loading")[0];
     const hamburgerIcon = document.createElement("img");
     hamburgerIcon.src = chrome.runtime.getURL("img/miniSakaiBtn.png");
     hamburgerIcon.className = "cs-minisakai-btn";
     loadingIcon.className = "cs-minisakai-btn-div";
     loadingIcon.append(hamburgerIcon);
+    */
 }
 
 export function getRemainTimeString(dueInSeconds: number): string {

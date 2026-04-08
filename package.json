@@ -1,7 +1,7 @@
 {
-  "name": "comfortable-panda",
-  "version": "5.3.1",
-  "description": "Comfortable PandA is a browser extension for managing assignments and quizzes on PandA.",
+  "name": "comfortable-kulms",
+  "version": "6.0.0",
+  "description": "Comfortable KULMS is a browser extension for managing assignments and quizzes on KULMS.",
   "main": "index.ts",
   "scripts": {
     "test": "jest",

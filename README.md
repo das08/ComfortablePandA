@@ -126,3 +126,11 @@ npm run test
 
 # License
 Apache-2.0 License
+
+
+## Manifestについて
+- Chromium
+- - manifest.json
+- Firefox
+- - manifest-v2.json
+- - manifest-firefox.json

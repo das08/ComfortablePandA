@@ -17,7 +17,7 @@
     {
       "js": ["content_script.js"],
       "css": ["css/comfortable-sakai.css"],
-      "matches": ["https://panda.ecs.kyoto-u.ac.jp/*"]
+      "matches": ["https://lms.gakusei.kyoto-u.ac.jp/*"]
     }
   ],
   "background": {
